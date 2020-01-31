@@ -74,40 +74,33 @@ render() {
     return (
       <KeyboardAvoidantView style={styles.container}> //<-- Wrap content with KeyboardAdaptableView
         <Title
-          text={"My Account"}
-          iconName={"user-circle-o"}
+          text={"KeyboardAvoidantView"}
         />
 
         <Text style={styles.title}>Title1</Text>
         <TextInput
           adaptKeyboard //<-- Add 'adaptKeyboard' prop to TextInput or or custom text input component.
-          secureTextEntry
-          maxLength={maxLength}
           onChangeText={this.onChangeText}
-          placeholder={"Type here..."}
+          placeholder={"TextInput1"}
         />
 
         <Text style={styles.title}>Title2</Text>
         <TextInput
           adaptKeyboard //<-- Add 'adaptKeyboard' prop to TextInput or or custom text input component.
-          secureTextEntry
-          maxLength={maxLength}
           onChangeText={this.onChangeText}
-          placeholder={"Type here..."}
+          placeholder={"TextInput2"}
         />
 
         <Text style={styles.title}>Title3</Text>
         <MyCustomInput
           adaptKeyboard //<-- Add 'adaptKeyboard' prop to TextInput or or custom text input component.
-          secureTextEntry
-          maxLength={maxLength}
           onChangeText={this.onChangeText}
-          placeholder={"Type here..."}
+          placeholder={"TextInput3"}
         />
 
         <Button
-          iconName={"lock"}
-          text={"Change"}
+          iconName={"check"}
+          text={"Finish"}
           onPress={this.onButtonPress}
         />
         </KeyboardAvoidantView> //<-- Wrap content with KeyboardAdaptableView
