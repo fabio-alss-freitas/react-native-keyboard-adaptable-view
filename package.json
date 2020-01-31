@@ -1,0 +1,11 @@
+{
+  "name": "react-native-keyboard-adaptable-view",
+  "version": "1.0.1",
+  "description": "A ScrollView component that adapt to keyboard.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Fabio Freitas",
+  "license": "MIT"
+}
