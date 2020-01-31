@@ -54,7 +54,7 @@ class KeyboardAdaptableView extends PureComponent {
       if (
         child != null &&
         child.props != null &&
-        child.props.adjustOnKeyboardShow
+        child.props.adaptKeyboard
       ) {
         return React.cloneElement(child, {
           onFocus: event => this.handleOnFocus(`adjust_${index}`, event),
