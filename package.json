@@ -22,7 +22,8 @@
     "keyboard",
     "ios",
     "android",
-    "react-component"
+    "react-component",
+    "avoid"
   ],
   "author": "Fabio Freitas",
   "license": "MIT",
