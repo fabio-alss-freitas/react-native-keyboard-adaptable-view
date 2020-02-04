@@ -1,13 +1,6 @@
 import PropTypes from "prop-types"
 import React, { PureComponent } from "react"
-import {
-  Dimensions,
-  Keyboard,
-  ScrollView,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View
-} from "react-native"
+import { Dimensions, Keyboard, ScrollView, StyleSheet } from "react-native"
 
 const { width, height } = Dimensions.get("window")
 
@@ -144,7 +137,7 @@ class KeyboardAdaptableView extends PureComponent {
   }
 
   render() {
-    const { style } = this.props
+    const { style, keyboardShouldPersistTaps, keyboardDismissMode } = this.props
     return (
       <ScrollView
         ref={r => {
@@ -153,10 +146,10 @@ class KeyboardAdaptableView extends PureComponent {
         {...this.props}
         style={{ ...styles.container, ...style }}
         contentContainerStyle={this.definePaddingBottom()}
+        keyboardShouldPersistTaps={keyboardShouldPersistTaps || "always"}
+        keyboardDismissMode={keyboardDismissMode || "none"}
       >
-        <TouchableWithoutFeedback onPress={this.handleDismissKeyboard}>
-          <View>{this.updateChildren()}</View>
-        </TouchableWithoutFeedback>
+        {this.updateChildren()}
       </ScrollView>
     )
   }
