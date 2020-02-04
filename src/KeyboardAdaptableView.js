@@ -1,6 +1,13 @@
 import PropTypes from "prop-types"
 import React, { PureComponent } from "react"
-import { Dimensions, Keyboard, ScrollView, StyleSheet } from "react-native"
+import {
+  Dimensions,
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View
+} from "react-native"
 
 const { width, height } = Dimensions.get("window")
 
@@ -35,6 +42,10 @@ class KeyboardAdaptableView extends PureComponent {
 
   keyboardDidHide = () => {
     this.setState({ paddingBottom: 0 })
+  }
+
+  handleDismissKeyboard = () => {
+    Keyboard.dismiss()
   }
 
   handleOnFocus = (ref, event) => {
@@ -85,7 +96,7 @@ class KeyboardAdaptableView extends PureComponent {
             }) => {
               setTimeout(() => {
                 this.heights[`adjust_${index}`] = y
-              }, 100)
+              }, 200)
             }
           })
         } else {
@@ -101,7 +112,7 @@ class KeyboardAdaptableView extends PureComponent {
             }) => {
               setTimeout(() => {
                 this.heights[`adjust_${index}`] = y
-              }, 100)
+              }, 200)
             }
           })
         }
@@ -112,10 +123,28 @@ class KeyboardAdaptableView extends PureComponent {
     return this.recursiveMap(children, fn)
   }
 
-  render() {
+  definePaddingBottom = () => {
+    const { contentContainerStyle } = this.props
     const { paddingBottom } = this.state
-    const { style, contentContainerStyle } = this.props
+    let bottom = paddingBottom
 
+    if (contentContainerStyle.paddingBottom) {
+      bottom += contentContainerStyle.paddingBottom
+    } else {
+      if (contentContainerStyle.padding) {
+        bottom += contentContainerStyle.padding
+      }
+    }
+
+    return {
+      ...contentContainerStyle,
+      ...styles.content,
+      ...{ paddingBottom: bottom }
+    }
+  }
+
+  render() {
+    const { style } = this.props
     return (
       <ScrollView
         ref={r => {
@@ -123,13 +152,11 @@ class KeyboardAdaptableView extends PureComponent {
         }}
         {...this.props}
         style={{ ...styles.container, ...style }}
-        contentContainerStyle={{
-          ...styles.content,
-          ...contentContainerStyle,
-          ...{ paddingBottom }
-        }}
+        contentContainerStyle={this.definePaddingBottom()}
       >
-        {this.updateChildren()}
+        <TouchableWithoutFeedback onPress={this.handleDismissKeyboard}>
+          <View>{this.updateChildren()}</View>
+        </TouchableWithoutFeedback>
       </ScrollView>
     )
   }
@@ -137,9 +164,7 @@ class KeyboardAdaptableView extends PureComponent {
 
 const styles = StyleSheet.create({
   container: { width, height },
-  content: {
-    flexGrow: 1
-  }
+  content: { flexGrow: 1 }
 })
 
 KeyboardAdaptableView.propTypes = {

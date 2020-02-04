@@ -1,6 +1,6 @@
 {
   "name": "react-native-keyboard-adaptable-view",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A component that avoids overlapping fields by keyboard using autoscroll.",
   "main": "index.js",
   "scripts": {

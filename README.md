@@ -62,9 +62,16 @@ render() {
 ...
 ```
 
+OBS: If you are working with a custom text input component, ensure to deal with [onFocus](https://facebook.github.io/react-native/docs/textinput#onfocus), [onLayout](https://facebook.github.io/react-native/docs/textinput#onlayout) and [forwardRef](https://reactjs.org/docs/forwarding-refs.html) props inside of it, passing to TextInput of RN.
+
 ## Props
 
-All the `ScrollView` props will be accepted.
+All the `ScrollView` props will be accepted, and also:
+
+| Name            | Description                                     | Type    | Required |                        Default Value                        |
+| :-------------- | :---------------------------------------------- | :------ | :------: | :---------------------------------------------------------: |
+| extraHeight        | Add extra height to keyboard view | Number |         | 15
+
 
 ## Example
 
