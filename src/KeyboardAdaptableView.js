@@ -1,3 +1,4 @@
+import PropTypes from "prop-types"
 import React, { PureComponent } from "react"
 import { Dimensions, Keyboard, ScrollView, StyleSheet } from "react-native"
 
@@ -26,8 +27,9 @@ class KeyboardAdaptableView extends PureComponent {
   }
 
   keyboardDidShow = e => {
+    const { extraHeight = 15 } = this.props
     this.setState({
-      paddingBottom: e.endCoordinates.height + 35
+      paddingBottom: e.endCoordinates.height + extraHeight
     })
   }
 
@@ -47,34 +49,67 @@ class KeyboardAdaptableView extends PureComponent {
     }
   }
 
-  updateChildren = () => {
-    const { children } = this.props
-
+  recursiveMap = (children, fn) => {
     return React.Children.map(children, (child, index) => {
-      if (
-        child != null &&
-        child.props != null &&
-        child.props.adaptKeyboard
-      ) {
-        return React.cloneElement(child, {
-          onFocus: event => this.handleOnFocus(`adjust_${index}`, event),
-          ref: r => {
-            this[`adjust_${index}`] = r
-          },
-          onLayout: ({
-            nativeEvent: {
-              layout: { x, y, width, height }
-            }
-          }) => {
-            setTimeout(() => {
-              this.heights[`adjust_${index}`] = y
-            }, 100)
-          }
-        })
-      } else {
+      if (!React.isValidElement(child)) {
         return child
       }
+
+      if (child.props.children) {
+        child = React.cloneElement(child, {
+          children: this.recursiveMap(child.props.children, fn)
+        })
+      }
+
+      return fn(child)
     })
+  }
+
+  updateChildren = () => {
+    const { children } = this.props
+    let index = 0
+
+    const fn = child => {
+      if (child != null && child.props != null && child.props.adaptKeyboard) {
+        index++
+        if (child.type && child.type.displayName == "TextInput") {
+          return React.cloneElement(child, {
+            onFocus: event => this.handleOnFocus(`adjust_${index}`, event),
+            ref: r => {
+              this[`adjust_${index}`] = r
+            },
+            onLayout: ({
+              nativeEvent: {
+                layout: { x, y, width, height }
+              }
+            }) => {
+              setTimeout(() => {
+                this.heights[`adjust_${index}`] = y
+              }, 100)
+            }
+          })
+        } else {
+          return React.cloneElement(child, {
+            onFocus: event => this.handleOnFocus(`adjust_${index}`, event),
+            forwardedRef: r => {
+              this[`adjust_${index}`] = r
+            },
+            onLayout: ({
+              nativeEvent: {
+                layout: { x, y, width, height }
+              }
+            }) => {
+              setTimeout(() => {
+                this.heights[`adjust_${index}`] = y
+              }, 100)
+            }
+          })
+        }
+      }
+      return child
+    }
+
+    return this.recursiveMap(children, fn)
   }
 
   render() {
@@ -106,5 +141,9 @@ const styles = StyleSheet.create({
     flexGrow: 1
   }
 })
+
+KeyboardAdaptableView.propTypes = {
+  extraHeight: PropTypes.number
+}
 
 export default KeyboardAdaptableView

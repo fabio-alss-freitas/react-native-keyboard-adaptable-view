@@ -27,6 +27,7 @@ A component that adapt to keyboard and automatically scrolls to focused `TextInp
 ## Features
 
 - [x] Adapt using autoscroll
+- [x] extraHeight prop to adjust the height of the keyboard
 
 ## Installation
 
@@ -44,9 +45,9 @@ import KeyboardAdaptableView from "react-native-keyboard-adaptable-view";
 
 render() {
     return (
-      <KeyboardAvoidantView>
+      <KeyboardAdaptableView>
         //...content
-      </KeyboardAvoidantView>
+      </KeyboardAdaptableView>
     );
   }
 
@@ -72,9 +73,9 @@ import KeyboardAdaptableView from "react-native-keyboard-adaptable-view";
 
 render() {
     return (
-      <KeyboardAvoidantView style={styles.container}> //<-- Wrap content with KeyboardAdaptableView
+      <KeyboardAdaptableView style={styles.container}> //<-- Wrap content with KeyboardAdaptableView
         <Title
-          text={"KeyboardAvoidantView"}
+          text={"KeyboardAdaptableView"}
         />
 
         <Text style={styles.title}>Title1</Text>
@@ -103,7 +104,7 @@ render() {
           text={"Finish"}
           onPress={this.onButtonPress}
         />
-        </KeyboardAvoidantView> //<-- Wrap content with KeyboardAdaptableView
+        </KeyboardAdaptableView> //<-- Wrap content with KeyboardAdaptableView
     );
   }
 ```
